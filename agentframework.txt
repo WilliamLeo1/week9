@@ -1,0 +1,57 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Mar  2 12:52:37 2021
+
+@author: bootl
+"""
+
+import random
+
+class Agent():
+    def __init__(self, i, environment, agents):
+        self.x = random.randint(0,299)
+        self.y = random.randint(0,299)
+        self.environment = environment
+        self.i = i
+        self.agents = agents
+        self.store = 0
+      
+    def __str__(self):
+        return "id=" + str(self.i) + ", x=" + str(self.x) + ", y=" + str(self.y)
+        
+    def move(self):
+        """
+        
+
+        Returns
+        -------
+        None.
+
+        """
+        if random.random() < 0.5:
+            self.y = (self.y + 1) % 300
+        else:
+            self.y = (self.y - 1) % 300
+        if random.random() < 0.5:
+            self.x = (self.x + 1) % 300
+        else:
+            self.x = (self.x - 1) % 300
+            
+    def eat(self): # can you make it eat what is left?
+        if self.environment[self.y][self.x] > 10:
+            self.environment[self.y][self.x] -= 10
+            self.store += 10        
+            
+    def share_with_neighbours (self, neighbourhood):
+        for agents in self.agents:
+            distance=self.distance_between(agents)
+        if distance <= neighbourhood:
+            sum = self.store + agents.store
+            ave = sum/2
+            self.store = ave
+            agents.store = ave    
+            print("sharing " + str(distance) + " " + str(ave))
+            
+    def distance_between(self, agents):
+        return (((self.x-agents.x)**2)+((self.y-agents.y)**2))**0.5            
+            
